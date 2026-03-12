@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#007fff",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#0f1923",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col pb-24">
+<!-- Header Component -->
+<header class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 py-4 flex items-center justify-between">
+<button class="flex items-center justify-center p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold tracking-tight">Crear Plan de Dieta</h1>
+<button class="text-primary font-semibold text-sm px-3 py-1 rounded-lg border border-primary/20 hover:bg-primary/10">
+            Plantillas
+        </button>
+</header>
+<main class="flex-1 w-full max-w-md mx-auto px-4 py-6 space-y-8">
+<!-- Athlete Selection Section -->
+<section class="space-y-4">
+<h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500">Asignar Atleta</h2>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-3 pl-11 pr-4 focus:ring-2 focus:ring-primary text-sm" placeholder="Buscar atleta..." type="text"/>
+</div>
+<div class="flex gap-4 overflow-x-auto hide-scrollbar py-2">
+<div class="flex flex-col items-center gap-2 shrink-0">
+<div class="size-14 rounded-full border-2 border-primary p-0.5">
+<img class="size-full rounded-full object-cover" data-alt="Athlete profile portrait active selection" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIh_GESSi6YDEGgx4phjNWPxCUmNU3Hhhj7VIwE4Gn30tDQ5bGyett5QsSNn_fXHgtYL4KLZU0X04ohNPnYwZP0JO11CTQzytTUnvVR9AgTdQRMWITPBR7mUcZ-ycpnt9-HtYzYyiwosyAHG51tWuYolrcnP1H9glOUeGYharD1hPi7cVI8Qd-tqzRz7QjbDchavweZxs67iSsWsbfy2PRZ3rkgd8J0iDJHNFLOIP7EJNnzwB3RNDsKUGj_GjzLRMZzZRwUMB6Yt4"/>
+</div>
+<span class="text-xs font-medium text-primary">Alex M.</span>
+</div>
+<!-- Other Athletes -->
+<div class="flex flex-col items-center gap-2 shrink-0 opacity-60">
+<div class="size-14 rounded-full border border-slate-700 p-0.5">
+<img class="size-full rounded-full object-cover" data-alt="Female athlete profile photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzXjagaCeqFVSFDOR6MCgUt5DBZdeLnBVZ7MSNgJejp6wQMyP8dvVWMxejqDeoBNDhK3JbTLkwqXuuJbhPXMghZHGuVzFulo9OeSeo0TkkrXBlufsC7nR6mp5MAtWoPGwupPB3GLM8Xr9tOOL-E_9qHN77Qg8dSNc3O7fvhviAuTOLcPDIKSLh1LozIIolclM4LbMeE3glpFH2FX74QY7lUrVrlQM1R42mJWWTsnb8vLIEjdz_AGtQUj3osB3qfK8kc6PED8Eqv50"/>
+</div>
+<span class="text-xs font-medium">Elena R.</span>
+</div>
+<div class="flex flex-col items-center gap-2 shrink-0 opacity-60">
+<div class="size-14 rounded-full border border-slate-700 p-0.5">
+<img class="size-full rounded-full object-cover" data-alt="Male athlete profile photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArV3f44ZRdd_vELjwScA6Kdr8LSSbiIWLE8mn-yjIlKyTh3IcPmI98wfVGxRCcHcZuPAxZSs3h0jsQT5HsWNd1d-VIPFeEgxwua-rxdrRHeIMBV7GiOStkIoH6UycHhNRsB6jgkEHOSZKtmfR6d88naNTFxIpxcgWJz3fk_FpU7Y_j_dk3GEGONRDi1mhoDIMNfma1w--r4bNvevNL7bTAFxrEzkAn8VKCHeJp0gZD3fLaW8WbbGl-wchcTdIVYJ_zM36_-9O3dOs"/>
+</div>
+<span class="text-xs font-medium">Marc J.</span>
+</div>
+<div class="flex flex-col items-center gap-2 shrink-0 opacity-60">
+<div class="size-14 rounded-full border border-slate-700 p-0.5">
+<img class="size-full rounded-full object-cover" data-alt="Athletic woman profile photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5GozxiRw665-YY6Wy1mPGHxLe5BjeT-nlDHKZr27ns6KMrXmAwICQaCu8YPu4xyG6kO7eSzU9sgUcfz3RuX1RQrE-aSWsdLRtCMuTyMbZbBVvJhs10U0uQ15lNuBxf0SBnDs9JeH38JXFtz3zenM5H6XprBRTrQ0MMCS-Pf8x3M3RZmOVLGXzKJp8e3FYM3pfgPfXQxZ8NdCyYO0H7uZPKu4kgR0XcuBYvFACRC_w00NixiScrFvI4IcaWdpY4JiUClog3yZDh2o"/>
+</div>
+<span class="text-xs font-medium">Sara L.</span>
+</div>
+<div class="flex flex-col items-center gap-2 shrink-0 opacity-60">
+<div class="size-14 rounded-full border border-slate-700 p-0.5">
+<img class="size-full rounded-full object-cover" data-alt="Bodybuilder profile photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8XJfsNr6Dxi685FfsW0G62dJi8z79l-BhO3hzQOJseaFNewSf3uYgmdXUK9DXnGKaWqwJmeLJDf4Zs-NRc4lHm9gr7_GshtHMpmlienMvE_vWeO178OGRwMMgGffQuTSp43QV-_FBPmjCLofnfJkAA33JOzK5sD1K5l8Gdc2Jlh4MXq3bF1wYP8uBIsKuKJWzB174dJ7-kHxyGdF4oY0u5NZip7VHdvFyE3bN4urokXrfkU7ULH4_WLS8Flpdzq9i2UFh2mwys9c"/>
+</div>
+<span class="text-xs font-medium">Ivan K.</span>
+</div>
+</div>
+</section>
+<!-- Macros Target Section -->
+<section class="bg-slate-100 dark:bg-slate-800/50 rounded-2xl p-5 border border-slate-200 dark:border-slate-800">
+<div class="flex justify-between items-end mb-6">
+<div>
+<h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-1">Objetivo Diario</h2>
+<p class="text-3xl font-bold">3,659 <span class="text-sm font-medium text-slate-400">kcal</span></p>
+</div>
+<div class="text-right">
+<span class="text-xs font-bold bg-primary/20 text-primary px-2 py-1 rounded-md">BULKING</span>
+</div>
+</div>
+<div class="space-y-4">
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-semibold">
+<span>PROTEÍNA</span>
+<span class="text-primary">158g</span>
+</div>
+<input class="w-full h-1.5 bg-slate-300 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-primary" max="300" min="0" type="range" value="158"/>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-semibold">
+<span>CARBOHIDRATOS</span>
+<span class="text-primary">590g</span>
+</div>
+<input class="w-full h-1.5 bg-slate-300 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-primary" max="800" min="0" type="range" value="590"/>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-semibold">
+<span>GRASAS</span>
+<span class="text-primary">73g</span>
+</div>
+<input class="w-full h-1.5 bg-slate-300 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-primary" max="150" min="0" type="range" value="73"/>
+</div>
+</div>
+</section>
+<!-- Meals Builder Section -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500">Comidas (5)</h2>
+<button class="text-primary text-xs font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">add</span> Añadir Comida
+                </button>
+</div>
+<div class="space-y-3">
+<!-- Meal 1 -->
+<div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+<div class="p-4 border-b border-slate-100 dark:border-slate-700/50 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">restaurant</span>
+<span class="font-bold">Comida 1 (Desayuno)</span>
+</div>
+<span class="text-xs font-medium text-slate-400">08:00 AM</span>
+</div>
+<div class="p-4 flex items-center justify-between">
+<div class="flex gap-4">
+<div class="text-center">
+<p class="text-[10px] text-slate-400 font-bold uppercase">kcal</p>
+<p class="font-bold text-sm">740</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-slate-400 font-bold uppercase">P</p>
+<p class="font-bold text-sm">42g</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-slate-400 font-bold uppercase">C</p>
+<p class="font-bold text-sm">110g</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-slate-400 font-bold uppercase">F</p>
+<p class="font-bold text-sm">12g</p>
+</div>
+</div>
+<button class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-primary/90">Editar Alimentos</button>
+</div>
+</div>
+<!-- Meal 2 -->
+<div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden opacity-90">
+<div class="p-4 border-b border-slate-100 dark:border-slate-700/50 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">lunch_dining</span>
+<span class="font-bold">Comida 2 (Almuerzo)</span>
+</div>
+<span class="text-xs font-medium text-slate-400">11:30 AM</span>
+</div>
+<div class="p-4 flex items-center justify-between">
+<div class="flex gap-4">
+<div class="text-center">
+<p class="text-[10px] text-slate-400 font-bold uppercase">kcal</p>
+<p class="font-bold text-sm">620</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-slate-400 font-bold uppercase">P</p>
+<p class="font-bold text-sm">30g</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-slate-400 font-bold uppercase">C</p>
+<p class="font-bold text-sm">85g</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-slate-400 font-bold uppercase">F</p>
+<p class="font-bold text-sm">18g</p>
+</div>
+</div>
+<button class="bg-primary/10 text-primary text-xs font-bold px-4 py-2 rounded-lg border border-primary/20">Editar Alimentos</button>
+</div>
+</div>
+<!-- Meal 3 -->
+<div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden opacity-80">
+<div class="p-4 border-b border-slate-100 dark:border-slate-700/50 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">dinner_dining</span>
+<span class="font-bold">Comida 3 (Pre-Workout)</span>
+</div>
+<span class="text-xs font-medium text-slate-400">03:00 PM</span>
+</div>
+<div class="p-4 flex items-center justify-between">
+<div class="flex gap-4">
+<div class="text-center">
+<p class="text-[10px] text-slate-400 font-bold uppercase">kcal</p>
+<p class="font-bold text-sm">810</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-slate-400 font-bold uppercase">P</p>
+<p class="font-bold text-sm">25g</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-slate-400 font-bold uppercase">C</p>
+<p class="font-bold text-sm">160g</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-slate-400 font-bold uppercase">F</p>
+<p class="font-bold text-sm">8g</p>
+</div>
+</div>
+<button class="bg-primary/10 text-primary text-xs font-bold px-4 py-2 rounded-lg border border-primary/20">Editar Alimentos</button>
+</div>
+</div>
+<!-- ... other meals condensed for UI preview ... -->
+<div class="p-4 bg-slate-100/50 dark:bg-slate-800/30 rounded-xl border border-dashed border-slate-300 dark:border-slate-700 text-center">
+<p class="text-xs text-slate-500 font-medium">+ 2 comidas más configuradas</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation & Action Bar -->
+<div class="fixed bottom-0 left-0 right-0 z-20 bg-background-light dark:bg-background-dark border-t border-slate-200 dark:border-slate-800">
+<!-- Main Action -->
+<div class="px-4 pt-4 pb-2">
+<button class="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 active:scale-[0.98] transition-transform">
+                Guardar y Publicar Plan
+            </button>
+</div>
+<!-- Tab Bar -->
+<nav class="flex justify-around items-center px-2 py-2">
+<a class="flex flex-col items-center gap-1 p-2 text-slate-400" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-[10px] font-bold">Atletas</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-slate-400" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="text-[10px] font-bold">Entrenos</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">restaurant_menu</span>
+<span class="text-[10px] font-bold">Dietas</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-slate-400" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-[10px] font-bold">Pagos</span>
+</a>
+</nav>
+</div>
+</body></html>

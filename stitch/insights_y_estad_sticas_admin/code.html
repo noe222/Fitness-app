@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fitness Coach Insights Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#007fff",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#0f1923",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<div class="relative flex min-h-screen flex-col overflow-x-hidden">
+<!-- Header Section -->
+<header class="sticky top-0 z-10 flex items-center bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md p-4 justify-between border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<div class="text-primary flex size-10 items-center justify-center rounded-lg bg-primary/10">
+<span class="material-symbols-outlined">analytics</span>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold tracking-tight">Insights</h2>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex items-center justify-center size-10 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="flex items-center justify-center size-10 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<!-- Date Range Selector -->
+<div class="flex gap-3 p-4 overflow-x-auto scrollbar-hide border-b border-slate-200 dark:border-slate-800">
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary text-white px-4">
+<span class="text-sm font-medium">Last 30 Days</span>
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-4">
+<span class="text-sm font-medium">Last 7 Days</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-4">
+<span class="text-sm font-medium">Last Quarter</span>
+</button>
+</div>
+<main class="flex-1 p-4 space-y-6 pb-24">
+<!-- Business KPIs Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="flex flex-col gap-2 rounded-xl p-5 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50">
+<div class="flex justify-between items-start">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Revenue Growth</p>
+<span class="text-emerald-500 bg-emerald-500/10 text-xs font-bold px-2 py-1 rounded-full">+12%</span>
+</div>
+<p class="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">$14.2k</p>
+<p class="text-slate-400 text-xs">vs last period</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-5 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50">
+<div class="flex justify-between items-start">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Active Athletes</p>
+<span class="text-emerald-500 bg-emerald-500/10 text-xs font-bold px-2 py-1 rounded-full">+5%</span>
+</div>
+<p class="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">98</p>
+<p class="text-slate-400 text-xs">Total registered</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-5 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50">
+<div class="flex justify-between items-start">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Retention Rate</p>
+<span class="text-rose-500 bg-rose-500/10 text-xs font-bold px-2 py-1 rounded-full">-2%</span>
+</div>
+<p class="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">94%</p>
+<p class="text-slate-400 text-xs">Rolling average</p>
+</div>
+</div>
+<!-- Performance Charts Section -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- Line Chart: Total Volume -->
+<div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-6">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-lg font-bold">Total Volume Lifted</h3>
+<span class="material-symbols-outlined text-slate-400 cursor-pointer">more_vert</span>
+</div>
+<div class="h-48 w-full flex items-end gap-2 px-2">
+<div class="flex-1 bg-primary/20 rounded-t h-[40%] relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">12k</div>
+</div>
+<div class="flex-1 bg-primary/20 rounded-t h-[55%] relative group"></div>
+<div class="flex-1 bg-primary/20 rounded-t h-[45%] relative group"></div>
+<div class="flex-1 bg-primary/40 rounded-t h-[70%] relative group"></div>
+<div class="flex-1 bg-primary/40 rounded-t h-[60%] relative group"></div>
+<div class="flex-1 bg-primary/60 rounded-t h-[85%] relative group"></div>
+<div class="flex-1 bg-primary rounded-t h-[95%] relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-100">28k</div>
+</div>
+</div>
+<div class="flex justify-between mt-4 text-[10px] text-slate-500 font-medium px-1">
+<span>WK 1</span><span>WK 2</span><span>WK 3</span><span>WK 4</span><span>WK 5</span><span>WK 6</span><span>WK 7</span>
+</div>
+</div>
+<!-- Donut Chart & Engagement -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<!-- Circular: Plan Compliance -->
+<div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-6 flex flex-col items-center justify-center">
+<h3 class="text-sm font-bold mb-4 w-full text-left">Plan Compliance</h3>
+<div class="relative size-32 flex items-center justify-center">
+<svg class="size-full -rotate-90" viewbox="0 0 36 36">
+<circle class="stroke-slate-100 dark:stroke-slate-800" cx="18" cy="18" fill="none" r="16" stroke-width="3"></circle>
+<circle class="stroke-primary" cx="18" cy="18" fill="none" r="16" stroke-dasharray="85, 100" stroke-linecap="round" stroke-width="3"></circle>
+<circle class="stroke-primary/30" cx="18" cy="18" fill="none" r="16" stroke-dasharray="15, 100" stroke-dashoffset="-85" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-2xl font-bold">85%</span>
+<span class="text-[10px] text-slate-500 uppercase">Avg</span>
+</div>
+</div>
+<div class="mt-4 flex gap-4 text-[11px]">
+<div class="flex items-center gap-1.5"><span class="size-2 rounded-full bg-primary"></span><span>Workout</span></div>
+<div class="flex items-center gap-1.5"><span class="size-2 rounded-full bg-primary/30"></span><span>Diet</span></div>
+</div>
+</div>
+<!-- Bar Chart: Form Completion -->
+<div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-6">
+<h3 class="text-sm font-bold mb-4">Form Completion</h3>
+<div class="space-y-3">
+<div class="space-y-1">
+<div class="flex justify-between text-[10px] font-medium"><span>Mon</span><span>92%</span></div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[92%]"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-[10px] font-medium"><span>Tue</span><span>88%</span></div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[88%]"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-[10px] font-medium"><span>Wed</span><span>75%</span></div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[75%]"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-[10px] font-medium"><span>Thu</span><span>95%</span></div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[95%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Top Performers List -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="text-lg font-bold">Top Performers</h3>
+<button class="text-primary text-sm font-semibold">View All</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-primary/20 overflow-hidden">
+<img class="size-full object-cover" data-alt="Profile picture of a focused male athlete" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4YzN44mS7V-9CYdxIfz-cAgYW6LKFxOwHV1KVhnOu1WKMN2wA5vSPpTRs7thcWqymK6UGqB8EYNTdQRq8P8HnxCOoDl5p-l1AZHfmbTXrYqO2rNp8tlnlH0ZzfeFUoCDnXvj6POaTyg-s56A6SZwP5A6Bdrsr78iCCQzF6i3ToVTYobX7BQPHPxUWRniGn3xcCYtEIuOAFwXgW8m7Az_J8mV7BpUnmG4Bf1ldcmO5HT6-VIRF7JSHlo2BYn_FOzZdRdW7jI_z3D0"/>
+</div>
+<div>
+<p class="text-sm font-bold">Marcus Sterling</p>
+<p class="text-xs text-slate-500">Powerlifting • 31 days streak</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-emerald-500">99%</p>
+<p class="text-[10px] text-slate-500">Consistency</p>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-primary/20 overflow-hidden">
+<img class="size-full object-cover" data-alt="Profile picture of a female athlete in gym" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUMat7GQPe5BpGx-3TTiSLEGylDk5JvDGEayh2upyGSMYitFWH2YPunBUhdjJExwdPlaS0iiiAKstWclhh0T5JnKxxarJfJ2A8dFqLE5niBxZkiX2xDOIZ1k5mpYHAeYe9wFyaHQW2sZ-m3Uikrm8YHtnR0_QsLLrU_R0dhpEMndj4AZ8_fFF8kMCmnk3YF5mrq300BJIkIL8gfwYe0xtY_4o6gthnvAjFNZDjTBeUcPjJgWtB9ZDnRTozweADTqSkSkXixwreuHs"/>
+</div>
+<div>
+<p class="text-sm font-bold">Sarah Chen</p>
+<p class="text-xs text-slate-500">Bodybuilding • 28 days streak</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-emerald-500">98%</p>
+<p class="text-[10px] text-slate-500">Consistency</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 z-20 border-t border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-lg px-4 pb-6 pt-3">
+<div class="flex max-w-lg mx-auto gap-2">
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined text-[24px]">home</span>
+<p class="text-[10px] font-medium uppercase tracking-wider">Home</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined text-[24px]">group</span>
+<p class="text-[10px] font-medium uppercase tracking-wider">Athletes</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined text-[24px]">payments</span>
+<p class="text-[10px] font-medium uppercase tracking-wider">Payments</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined text-[24px] font-bold" style="font-variation-settings: 'FILL' 1">analytics</span>
+<p class="text-[10px] font-bold uppercase tracking-wider">Insights</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined text-[24px]">settings</span>
+<p class="text-[10px] font-medium uppercase tracking-wider">Settings</p>
+</a>
+</div>
+</nav>
+</div>
+</body></html>

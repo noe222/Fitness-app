@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Athlete Detailed View - Coach Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#007fff",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#0f1923",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .chart-gradient {
+            background: linear-gradient(180deg, rgba(0, 127, 255, 0.2) 0%, rgba(0, 127, 255, 0) 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Top Header -->
+<div class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center p-4 justify-between">
+<button class="text-slate-900 dark:text-slate-100 p-1">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h2 class="text-lg font-bold flex-1 text-center">Athlete Profile</h2>
+<button class="text-slate-900 dark:text-slate-100 p-1">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Scrollable Content -->
+<main class="flex-1 overflow-y-auto pb-24">
+<!-- Athlete Profile Card -->
+<div class="p-4 @container">
+<div class="flex w-full flex-col gap-4 @[520px]:flex-row @[520px]:justify-between @[520px]:items-center bg-slate-100 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+<div class="flex gap-4 items-center">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-20 w-20 border-2 border-primary" data-alt="Professional male athlete headshot portrait" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAp1el1on6OUAUBKZ1wBQnbOcZWM-5Nj6_vzecw9kANrqnZ_AGyMrjHy9oDjNPVd6CXohBMoVnaLk4yWMrglwd1eyjq9h0O3BoIBzk2lnqGzO6gqNifbUJqXnfD0kk3GomJGgsyqkNfRTDrFSSvUXWQS-9N4BS6uLl1TByggcyHr4JPvgKf24OMKEK7kBcjqIt_jXbFW0GKc5MYaGmo9GpIssS1fTFaNYA7V7HKykvLUJLTzUXzD5GzKk0FZi-eiCoj-NO48T4N6MM");'></div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<p class="text-slate-900 dark:text-slate-100 text-xl font-bold">Alex Moreno</p>
+<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-500 text-[10px] font-bold uppercase tracking-wider">Active</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Goal: Bulking Phase</p>
+<p class="text-primary text-xs font-semibold mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">calendar_today</span>
+                            Joined 6 months ago
+                        </p>
+</div>
+</div>
+<button class="flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold w-full @[480px]:w-auto hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-sm mr-2">chat_bubble</span>
+                    Message
+                </button>
+</div>
+</div>
+<!-- Quick Metrics Grid -->
+<div class="grid grid-cols-3 gap-3 px-4">
+<div class="flex flex-col gap-1 rounded-xl p-4 bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
+<p class="text-slate-500 dark:text-slate-400 text-[10px] font-bold uppercase tracking-wider">Weight</p>
+<p class="text-slate-900 dark:text-slate-100 text-xl font-bold">82<span class="text-sm font-normal ml-0.5">kg</span></p>
+<p class="text-emerald-500 text-[11px] font-bold flex items-center">
+<span class="material-symbols-outlined text-xs">trending_up</span>+0.5
+                </p>
+</div>
+<div class="flex flex-col gap-1 rounded-xl p-4 bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
+<p class="text-slate-500 dark:text-slate-400 text-[10px] font-bold uppercase tracking-wider">Goal</p>
+<p class="text-slate-900 dark:text-slate-100 text-xl font-bold">85<span class="text-sm font-normal ml-0.5">kg</span></p>
+<p class="text-primary text-[11px] font-bold flex items-center">
+<span class="material-symbols-outlined text-xs">flag</span>3.0 left
+                </p>
+</div>
+<div class="flex flex-col gap-1 rounded-xl p-4 bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
+<p class="text-slate-500 dark:text-slate-400 text-[10px] font-bold uppercase tracking-wider">Adherence</p>
+<p class="text-slate-900 dark:text-slate-100 text-xl font-bold">92<span class="text-sm font-normal ml-0.5">%</span></p>
+<p class="text-emerald-500 text-[11px] font-bold flex items-center">
+<span class="material-symbols-outlined text-xs">arrow_upward</span>+2%
+                </p>
+</div>
+</div>
+<!-- Progress Chart Section -->
+<div class="px-4 mt-6">
+<div class="flex items-center justify-between mb-3">
+<h3 class="text-slate-900 dark:text-slate-100 font-bold">Weight Progress</h3>
+<select class="bg-transparent border-none text-xs text-primary font-bold focus:ring-0 cursor-pointer">
+<option>Last 30 Days</option>
+<option>Last 3 Months</option>
+</select>
+</div>
+<div class="w-full h-48 bg-slate-100 dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800 relative overflow-hidden p-4">
+<!-- Mock Chart Visuals -->
+<div class="absolute inset-x-0 bottom-0 h-32 chart-gradient"></div>
+<svg class="absolute inset-0 w-full h-full p-4" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0,80 Q10,75 20,70 T40,72 T60,65 T80,55 T100,50" fill="none" stroke="#007fff" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+<circle cx="100" cy="50" fill="#007fff" r="1.5"></circle>
+</svg>
+<div class="flex justify-between mt-auto absolute bottom-2 inset-x-4 text-[10px] text-slate-500 font-medium">
+<span>Oct 1</span>
+<span>Oct 15</span>
+<span>Oct 30</span>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="grid grid-cols-3 gap-3 px-4 mt-6">
+<button class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 hover:border-primary transition-all group">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">fitness_center</span>
+<span class="text-[11px] font-bold uppercase tracking-tighter">Edit Routine</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 hover:border-primary transition-all group">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">restaurant</span>
+<span class="text-[11px] font-bold uppercase tracking-tighter">Edit Diet</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 hover:border-primary transition-all group">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">history_edu</span>
+<span class="text-[11px] font-bold uppercase tracking-tighter">View Logs</span>
+</button>
+</div>
+<!-- Coach Notes Section -->
+<div class="px-4 mt-8">
+<h3 class="text-slate-900 dark:text-slate-100 font-bold mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">notes</span>
+                Coach Notes
+            </h3>
+<div class="bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl p-1">
+<textarea class="w-full bg-transparent border-none focus:ring-0 text-sm text-slate-700 dark:text-slate-300 placeholder:text-slate-500" placeholder="Write private observations about Alex's progress..." rows="4"></textarea>
+<div class="flex justify-end p-2">
+<button class="text-[11px] font-bold text-primary uppercase tracking-widest px-3 py-1 rounded hover:bg-primary/10">Save Notes</button>
+</div>
+</div>
+<p class="text-[10px] text-slate-500 mt-2 italic px-1">Last edited: Yesterday at 4:30 PM</p>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-background-light dark:bg-background-dark px-4 pb-6 pt-2">
+<div class="flex gap-2 max-w-lg mx-auto">
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined fill-1">group</span>
+<p class="text-xs font-bold leading-normal tracking-tight">Athletes</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-600" href="#">
+<span class="material-symbols-outlined">exercise</span>
+<p class="text-xs font-medium leading-normal tracking-tight">Library</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-600" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<p class="text-xs font-medium leading-normal tracking-tight">Insights</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-600" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-xs font-medium leading-normal tracking-tight">Settings</p>
+</a>
+</div>
+</nav>
+</body></html>

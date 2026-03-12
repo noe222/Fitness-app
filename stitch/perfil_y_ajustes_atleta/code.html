@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#007fff",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#0f1923",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>Athlete Profile - Fitness App</title>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Header -->
+<header class="flex items-center justify-between p-4 sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center justify-center size-10 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 cursor-pointer">
+<span class="material-symbols-outlined text-2xl">arrow_back</span>
+</div>
+<h1 class="text-lg font-bold tracking-tight">Profile</h1>
+<div class="flex items-center justify-center size-10 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 cursor-pointer">
+<span class="material-symbols-outlined text-2xl">settings</span>
+</div>
+</header>
+<main class="flex-1 overflow-y-auto pb-24">
+<!-- Profile Section -->
+<section class="flex flex-col items-center p-6 gap-4">
+<div class="relative">
+<div class="size-32 rounded-full border-4 border-primary p-1">
+<div class="size-full rounded-full bg-center bg-cover" data-alt="Professional fitness athlete portrait close up" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBx-46NSazYNn0F6HXjqGF8etqEP5jfyGJL2amvHPhvIKzq08NMqp02LK9a79JOO1G4al4jECTxfgy2x0HsWpn1DxzimqSPcEzx0G6PQAoQRMnfxQ2a0AQrRRdtMlaza5MryVvcpC6pwjBlTGjUTZcXbuH4XpQhFZuhMQwphhEg9EiygnmnWUPe62ZAH1dl38MGWpMJyuAPqsVGFK-i5EwzBAZfec0-ffSkLAwFIeIpU-vsGn-K0r9-79FAt-Xpg9wMt30uRurkms4");'>
+</div>
+</div>
+<div class="absolute bottom-1 right-1 bg-primary text-white size-8 flex items-center justify-center rounded-full border-2 border-background-dark">
+<span class="material-symbols-outlined text-sm">verified</span>
+</div>
+</div>
+<div class="text-center">
+<h2 class="text-2xl font-bold">Alex Rivera</h2>
+<div class="mt-1 inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-xs">star</span>
+                    Athlete Pro
+                </div>
+</div>
+<button class="w-full max-w-xs py-2.5 px-6 rounded-lg bg-slate-200 dark:bg-slate-800 font-semibold text-sm transition-colors hover:bg-slate-300 dark:hover:bg-slate-700">
+                Edit Profile
+            </button>
+</section>
+<!-- Subscription Alert Banner -->
+<section class="px-4 mb-6">
+<div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 flex items-start gap-4">
+<div class="p-2 bg-amber-500/20 rounded-lg text-amber-500">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<div class="flex-1">
+<h3 class="font-bold text-amber-500">Subscription expires soon</h3>
+<p class="text-sm text-slate-600 dark:text-slate-400 mt-0.5">Your plan expires in 3 days. Renew now to avoid losing your Pro status and tracking data.</p>
+<button class="mt-3 px-4 py-1.5 bg-amber-500 hover:bg-amber-600 text-slate-900 text-sm font-bold rounded-lg transition-colors">
+                        Renew Now
+                    </button>
+</div>
+</div>
+</section>
+<!-- Settings List -->
+<section class="px-4 space-y-6">
+<div>
+<h3 class="text-xs font-bold uppercase text-slate-500 dark:text-slate-500 tracking-widest px-2 mb-3">Account Settings</h3>
+<div class="bg-slate-100 dark:bg-slate-900/50 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+<a class="flex items-center gap-4 p-4 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors border-b border-slate-200 dark:border-slate-800" href="#">
+<span class="material-symbols-outlined text-primary">person</span>
+<div class="flex-1">
+<p class="font-medium">Personal Data</p>
+<p class="text-xs text-slate-500">Height, weight, age, and goals</p>
+</div>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</a>
+<a class="flex items-center gap-4 p-4 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-primary">credit_card</span>
+<div class="flex-1">
+<p class="font-medium">Subscription Plan</p>
+<p class="text-xs text-slate-500">Manage your Pro monthly plan</p>
+</div>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</a>
+</div>
+</div>
+<div>
+<h3 class="text-xs font-bold uppercase text-slate-500 dark:text-slate-500 tracking-widest px-2 mb-3">Preferences</h3>
+<div class="bg-slate-100 dark:bg-slate-900/50 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+<a class="flex items-center gap-4 p-4 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors border-b border-slate-200 dark:border-slate-800" href="#">
+<span class="material-symbols-outlined text-primary">notifications</span>
+<div class="flex-1">
+<p class="font-medium">Notifications</p>
+</div>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</a>
+<div class="flex items-center gap-4 p-4 border-b border-slate-200 dark:border-slate-800">
+<span class="material-symbols-outlined text-primary">dark_mode</span>
+<div class="flex-1">
+<p class="font-medium">Dark Mode</p>
+</div>
+<div class="relative inline-flex h-6 w-11 items-center rounded-full bg-primary cursor-pointer">
+<span class="inline-block h-4 w-4 translate-x-6 rounded-full bg-white transition"></span>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full flex items-center justify-center gap-2 p-4 text-red-500 font-bold hover:bg-red-500/10 rounded-xl transition-colors">
+<span class="material-symbols-outlined">logout</span>
+                Logout
+            </button>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 bg-background-light dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 px-4 pb-6 pt-2 flex justify-around items-center z-20">
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="text-[10px] font-medium">Training</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">restaurant</span>
+<span class="text-[10px] font-medium">Diet</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="text-[10px] font-medium">Tracking</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">account_circle</span>
+<span class="text-[10px] font-bold">Profile</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fitness Coach - Payment Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#007fff",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#0f1923",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-tab { border-bottom: 3px solid #007fff; color: #007fff; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<div class="relative flex h-screen w-full flex-col overflow-hidden max-w-md mx-auto border-x border-slate-200 dark:border-slate-800 shadow-2xl">
+<!-- Header -->
+<header class="flex items-center justify-between px-6 py-4 bg-background-light dark:bg-background-dark border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">payments</span>
+<h1 class="text-xl font-bold tracking-tight">Finances</h1>
+</div>
+<button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+</header>
+<!-- Main Content Area (Scrollable) -->
+<main class="flex-1 overflow-y-auto pb-24">
+<!-- Financial Overview Cards -->
+<section class="p-4 grid grid-cols-2 gap-4">
+<div class="bg-slate-100 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Total Revenue</p>
+<p class="text-2xl font-bold text-slate-900 dark:text-white">$14,250</p>
+<div class="flex items-center gap-1 mt-2">
+<span class="material-symbols-outlined text-emerald-500 text-sm">trending_up</span>
+<span class="text-xs font-semibold text-emerald-500">+12.5%</span>
+</div>
+</div>
+<div class="bg-slate-100 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Pending</p>
+<p class="text-2xl font-bold text-slate-900 dark:text-white">$2,100</p>
+<div class="flex items-center gap-1 mt-2">
+<span class="material-symbols-outlined text-primary text-sm">schedule</span>
+<span class="text-xs font-semibold text-primary">8 Invoices</span>
+</div>
+</div>
+</section>
+<!-- Filters/Tabs -->
+<nav class="sticky top-0 z-10 bg-background-light dark:bg-background-dark/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+<div class="flex px-4 overflow-x-auto no-scrollbar">
+<button class="px-4 py-4 text-sm font-bold active-tab border-b-2 border-primary whitespace-nowrap">All</button>
+<button class="px-4 py-4 text-sm font-medium text-slate-500 dark:text-slate-400 whitespace-nowrap">Paid</button>
+<button class="px-4 py-4 text-sm font-medium text-slate-500 dark:text-slate-400 whitespace-nowrap">Pending</button>
+<button class="px-4 py-4 text-sm font-medium text-slate-500 dark:text-slate-400 whitespace-nowrap">Overdue</button>
+</div>
+</nav>
+<!-- Athlete Payment List -->
+<section class="p-4 space-y-4">
+<!-- Payment Card: Paid -->
+<div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-12 rounded-full bg-cover bg-center border border-slate-200 dark:border-slate-700" data-alt="Profile photo of Marcus Aurelius athlete" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAEebyrl7GaWNBeO_P1q7QzucqrAbTunrrIy5QDIsDluFUHDBqcFLSBlWQi8ze-kpgZ1twZKD9-eYnXOBNa_bwczSrbaEVP20s9ERL3KdCyk4KASVP__Dlpl9UecAXdJNP6BILIcB5YHyXTgioYb7tM4x27jFsf2PNsn0AGosp_9x6uNk9kLbM7-CukRS7pNBRqKS7Z92TCLbnw5hheWsSmobv9Aqi0fYENQOXNmeKKDYa37tgXZ5_wbWKJkBslVGCg5CPngT47uc4')"></div>
+<div>
+<h3 class="font-bold text-slate-900 dark:text-white">Marcus Aurelius</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400">Annual Plan • $1,200.00</p>
+</div>
+</div>
+<span class="px-2 py-1 bg-emerald-500/10 text-emerald-500 text-[10px] font-bold uppercase rounded-lg border border-emerald-500/20">Paid</span>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
+<div class="text-xs text-slate-500 dark:text-slate-400">
+                            Due: <span class="font-medium text-slate-700 dark:text-slate-200">Dec 01, 2023</span>
+</div>
+<button class="text-xs font-bold text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">visibility</span>
+                            View Invoice
+                        </button>
+</div>
+</div>
+<!-- Payment Card: Overdue -->
+<div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800 flex flex-col gap-4 border-l-4 border-l-amber-500">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-12 rounded-full bg-cover bg-center border border-slate-200 dark:border-slate-700" data-alt="Profile photo of David Goggins athlete" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCALPxs-yY7fXBl5fxUoXWUWWWugEWWP7L_NhI46F44-gHhITRcM-z_sms68BmzvTc7xy7THyRSJ29QC7WUVhe9DzeM5KXMCjSGTPU15knXqJ-HVjbEX1_-zruqPbK8gyk8PldliiLS858L_YQuhRfLeoZP5taCftLpefV5gdY770B6MDqmIoVn4z6eCBHar6XQs5sRBKQNA7r0SiCsaCjkXTwEEBCcj-gSvgtb9-qv98pZLhcBCahxE_D10YO6o4MZd4skl70EqMA')"></div>
+<div>
+<h3 class="font-bold text-slate-900 dark:text-white">David Goggins</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400">Monthly Plan • $150.00</p>
+</div>
+</div>
+<span class="px-2 py-1 bg-amber-500/10 text-amber-500 text-[10px] font-bold uppercase rounded-lg border border-amber-500/20">Overdue</span>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
+<div class="text-xs text-slate-500 dark:text-slate-400">
+                            Due: <span class="font-medium text-amber-500">Nov 15, 2023</span>
+</div>
+<button class="bg-amber-500 text-white text-xs font-bold px-4 py-2 rounded-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">notifications</span>
+                            Send Reminder
+                        </button>
+</div>
+</div>
+<!-- Payment Card: Upcoming -->
+<div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800 flex flex-col gap-4 border-l-4 border-l-primary">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-12 rounded-full bg-cover bg-center border border-slate-200 dark:border-slate-700" data-alt="Profile photo of Sarah Chen athlete" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB5L2yTwzlqUhLq25VgXkGHfedeEFxoaZwXswo_vDJi3JW0FsbDCej7vWoB1GvVacePwmzlgfhR_DV-SPlF5EEn_QQA_4MLrhLNdItlO_V_kibJokVLHMlniNiT6O9i8cHhLteMHgxZCYeFJkjM4C9bXAAB_Px72FLVf0FGk1Rq8foYKqtECewCEL-CZatB9moktX6t3vctK0KxbeBpJJ8_Ohpr26UavoMs8a4fZmNb49zGPkdOn8UHSDbfnKDQOtqT85-aEugW988')"></div>
+<div>
+<h3 class="font-bold text-slate-900 dark:text-white">Sarah Chen</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400">Quarterly Plan • $400.00</p>
+</div>
+</div>
+<span class="px-2 py-1 bg-primary/10 text-primary text-[10px] font-bold uppercase rounded-lg border border-primary/20">Upcoming</span>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
+<div class="text-xs text-slate-500 dark:text-slate-400">
+                            Due: <span class="font-medium text-slate-700 dark:text-slate-200">Dec 12, 2023</span>
+</div>
+<button class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+                            Mark as Paid
+                        </button>
+</div>
+</div>
+<!-- Payment Card: Overdue #2 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800 flex flex-col gap-4 border-l-4 border-l-amber-500">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-12 rounded-full bg-cover bg-center border border-slate-200 dark:border-slate-700" data-alt="Profile photo of James Bond athlete" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDtdLZEzL4JLKmY5KngqJEeoM7tDYEmWr2ksp6wnJFCYi084KdEAT25pXmWXJXzY5QfHIYJdfgEqDLyrO1zcQkTc0CI7D7oDoGx44qFY1E5GYyqxhEMpGbm_JM0mhNMfuCD2eHYTghjm08wmrSAo1jsnZdNlXFY2l1V9ZSsKe4mrRPtPwiqXhkYKPQ9uEAM5vZAXG2EZxfTY85ojuVxwxHIQQzbVyWRU5rc2J7kt2Aqs0JoVZwwx807lf4HntMRnX3HidAA-cJLwSM')"></div>
+<div>
+<h3 class="font-bold text-slate-900 dark:text-white">James Bond</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400">Monthly Plan • $150.00</p>
+</div>
+</div>
+<span class="px-2 py-1 bg-amber-500/10 text-amber-500 text-[10px] font-bold uppercase rounded-lg border border-amber-500/20">Overdue</span>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
+<div class="text-xs text-slate-500 dark:text-slate-400">
+                            Due: <span class="font-medium text-amber-500">Nov 20, 2023</span>
+</div>
+<button class="bg-amber-500 text-white text-xs font-bold px-4 py-2 rounded-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">notifications</span>
+                            Send Reminder
+                        </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="absolute bottom-0 left-0 right-0 bg-white/80 dark:bg-background-dark/80 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 px-6 pb-6 pt-2">
+<div class="flex items-center justify-between max-w-md mx-auto">
+<a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Athletes</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">payments</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Payments</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Insights</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Settings</span>
+</a>
+</div>
+</nav>
+</div>
+</body></html>

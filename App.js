@@ -5,6 +5,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { useAuthStore } from './src/store/useAuthStore';
 
+
+
+
+
+
+import CoachNavigator from './src/navigation/CoachNavigator';
+import AthleteNavigator from './src/navigation/AthleteNavigator';
 // 1. Pantalla de Login
 function LoginScreen() {
   const setUserRole = useAuthStore((state) => state.setUserRole);
@@ -30,39 +37,6 @@ function LoginScreen() {
   );
 }
 
-// 2. Pantalla Temporal Entrenador
-function CoachDashboard() {
-  const logout = useAuthStore((state) => state.logout);
-  
-  return (
-    <View className="flex-1 bg-background-light items-center justify-center p-6">
-      <Text className="text-3xl font-bold text-slate-800 mb-6">Panel de Entrenador</Text>
-      <TouchableOpacity 
-        onPress={logout} 
-        className="w-full bg-red-500 py-4 rounded-xl items-center active:opacity-80"
-      >
-        <Text className="text-white font-bold text-lg">Cerrar Sesión</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
-
-// 3. Pantalla Temporal Atleta
-function AthleteDashboard() {
-  const logout = useAuthStore((state) => state.logout);
-  
-  return (
-    <View className="flex-1 bg-background-dark items-center justify-center p-6">
-      <Text className="text-3xl font-bold text-white mb-6">Panel de Atleta</Text>
-      <TouchableOpacity 
-        onPress={logout} 
-        className="w-full bg-red-500 py-4 rounded-xl items-center active:opacity-80"
-      >
-        <Text className="text-white font-bold text-lg">Cerrar Sesión</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
 
 // COMPONENTE PRINCIPAL
 export default function App() {
@@ -76,9 +50,9 @@ export default function App() {
       {!userRole ? (
         <LoginScreen />
       ) : userRole === 'coach' ? (
-        <CoachDashboard />
+        <CoachNavigator />
       ) : (
-        <AthleteDashboard />
+        <AthleteNavigator />
       )}
       
     </NavigationContainer>
