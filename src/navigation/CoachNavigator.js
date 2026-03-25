@@ -12,6 +12,7 @@ import PaymentManagement from '../screens/coach/PaymentManagement';
 import AthleteDetail from '../screens/coach/AthleteDetail';
 import Insights from '../screens/coach/Insights';
 import AdminProfile from '../screens/coach/AdminProfile';
+import AssignAthletesScreen from '../screens/coach/AssignAthletesScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -78,6 +79,7 @@ export default function CoachNavigator() {
       <Stack.Screen name="AthleteDetail" component={AthleteDetail} />
       <Stack.Screen name="Insights" component={Insights} />
       <Stack.Screen name="AdminProfile" component={AdminProfile} />
+      <Stack.Screen name="AssignAthletes" component={AssignAthletesScreen} />
     </Stack.Navigator>
   );
 }

@@ -1,44 +1,108 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuthStore } from '../../store/useAuthStore';
-import { View, Text, ScrollView, TouchableOpacity, Image, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Image, SafeAreaView, ActivityIndicator, Alert, RefreshControl } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useColorScheme } from 'nativewind';
+import { useNavigation } from '@react-navigation/native';
+import { useCoachCompliance } from '../../hooks/useCoachCompliance';
 
 
 export default function CoachDashboard() {
 
-  const { logout } = useAuthStore();
+  const { logout, userProfile } = useAuthStore();
   const {colorScheme, toggleColorScheme} = useColorScheme();
+  const navigation = useNavigation();
+  const { fetchCoachDashboardData } = useCoachCompliance();
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [dashboardData, setDashboardData] = useState({
+    stats: {
+      totalAthletes: 0,
+      activeAthletes: 0,
+      pendingAthletes: 0,
+    },
+    athletes: [],
+  });
 
-  const athletes = [
-    {
-      id: 1,
-      name: 'Alex Johnson',
-      compliance: '95%',
-      complianceStatus: 'emerald',
-      lastUpdate: 'Completed Push Day',
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA7REOONT7C3dU6-uf56AgOFfERK5D5Chx6GrZzfbzuvbnqmmkIPRwnsf-F7ZJ0tIyc7XcfX3x9A5_RhQh-hOJBjkwspLC046mQTuA8IHVO9E9sQ4qZ7uCtM68HzEqNEGeqx_OJ689RZ_AnVBP6vX02pwFD6nrE3hOI7HZ_fnib20pJcnMWofbgr3xiWqbbjod7q-wjbdUxD8PIEXT_erOA0MZrdO3jaI6lWSnpuMBb2RxweMjeqojpkKwXg4wK49tYa3zl2svJuDI',
-      progress: ['emerald', 'emerald', 'emerald', 'emerald-light']
-    },
-    {
-      id: 2,
-      name: 'Marcus Wei',
-      compliance: '72%',
-      complianceStatus: 'amber',
-      lastUpdate: 'Logged Lunch (400kcal)',
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDkX_rR91HK959Kdow4QTreysKbkf862UNonGRuyKH5y2QFuX_t1EfPJPY_n5HPQDhpbiwp5qqM3Ril6yX6wu5v4_LRwQtwXh85A7KYCjPQaKYxiG92GszJ22MAt7lybMdCWS_cysPqdaOZ5P18hyVuBU24K0VW3KDJcCx1QHx8PRexJUD8oC4bdBD03qVoy30s4tyj5PPzl_nboRX7RGsfWhg5nkiNJl1LoTzvzdAT3TeyxucfbgzzDFmuu0YHLQ6T9MLy7Ryntj4',
-      progress: ['emerald', 'amber', 'slate', 'slate']
-    },
-    {
-      id: 3,
-      name: 'Sarah Connor',
-      compliance: '88%',
-      complianceStatus: 'emerald',
-      lastUpdate: 'Missed morning cardio',
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAQFEbNY703C8tBKz9_jy_4I-JbMEFaHCoUGvrpyc8xdJN8Otm-JrMQhTL4YolQb3_nXoEn6AuvlDkEAdGsCDbuQ9f9HBekE5k2Zee8ITiKbkYxltJ41BktJ_cc0F0-PjKYfrPYVgi5CIweW_mk5FTEVb7jC7WN_kmaSMYrdanLxAl9tavgnH0_Plmdp2J7Yr3LSmsfK-pLD0xTIzSZWPK8oVHYtJnI4u3KPUCcunZXZ8AO4oy2UeLOapTDs00l0hugue4j4wgYvus',
-      progress: ['emerald', 'emerald', 'rose', 'slate']
+  useEffect(() => {
+    loadDashboard();
+  }, []);
+
+  const loadDashboard = async (showLoader = true) => {
+    try {
+      if (showLoader) {
+        setLoading(true);
+      }
+
+      const data = await fetchCoachDashboardData();
+      setDashboardData(data);
+    } catch (error) {
+      console.error('Error al cargar el dashboard del coach:', error.message);
+      Alert.alert('Error', error.message);
+    } finally {
+      if (showLoader) {
+        setLoading(false);
+      }
     }
-  ];
+  };
+
+  const handleRefresh = async () => {
+    try {
+      setRefreshing(true);
+      await loadDashboard(false);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
+  const getBadgeClasses = (status) => {
+    if (status === 'emerald') {
+      return {
+        container: 'bg-emerald-500/10',
+        text: 'text-emerald-500',
+      };
+    }
+
+    if (status === 'amber') {
+      return {
+        container: 'bg-amber-500/10',
+        text: 'text-amber-500',
+      };
+    }
+
+    if (status === 'rose') {
+      return {
+        container: 'bg-rose-500/10',
+        text: 'text-rose-500',
+      };
+    }
+
+    return {
+      container: 'bg-slate-500/10',
+      text: 'text-slate-500',
+    };
+  };
+
+  const renderAvatar = (athlete) => {
+    if (athlete.avatarUrl) {
+      return <Image source={{ uri: athlete.avatarUrl }} className="w-full h-full" />;
+    }
+
+    return (
+      <View className="w-full h-full items-center justify-center bg-primary/10">
+        <Text className="font-black text-primary text-lg">{athlete.name.charAt(0).toUpperCase()}</Text>
+      </View>
+    );
+  };
+
+  if (loading) {
+    return (
+      <SafeAreaView className="flex-1 justify-center items-center bg-background-light dark:bg-background-dark">
+        <ActivityIndicator size="large" color="#007fff" />
+        <Text className="mt-4 text-slate-500 font-semibold">Cargando compliance del equipo...</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-background-light dark:bg-background-dark">
@@ -53,7 +117,7 @@ export default function CoachDashboard() {
           </View>
           <View>
             <Text className="text-lg font-bold leading-tight text-slate-900 dark:text-slate-100">Coach Dashboard</Text>
-            <Text className="text-xs text-slate-500 dark:text-slate-400">Welcome back, Coach Mike</Text>
+            <Text className="text-xs text-slate-500 dark:text-slate-400">Welcome back, {userProfile?.full_name || 'Coach'}</Text>
           </View>
         </View>
         
@@ -83,28 +147,43 @@ export default function CoachDashboard() {
         </View>
       </View>
 
-      <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>
+      <ScrollView
+        className="flex-1 p-4"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 100 }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            tintColor="#007fff"
+            colors={["#007fff"]}
+          />
+        }
+      >
         
         {/* Quick Stats */}
         <View className="flex-row justify-between mb-6">
           <View className="flex-1 flex-col rounded-xl p-4 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 mr-2">
             <Text className="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider mb-1">Athletes</Text>
-            <Text className="text-2xl font-bold text-primary">124</Text>
+            <Text className="text-2xl font-bold text-primary">{dashboardData.stats.totalAthletes}</Text>
           </View>
           <View className="flex-1 flex-col rounded-xl p-4 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 mx-1">
-            <Text className="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider mb-1">Active</Text>
-            <Text className="text-2xl font-bold text-slate-900 dark:text-slate-100">98</Text>
+            <Text className="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider mb-1">Active 30d</Text>
+            <Text className="text-2xl font-bold text-slate-900 dark:text-slate-100">{dashboardData.stats.activeAthletes}</Text>
           </View>
           <View className="flex-1 flex-col rounded-xl p-4 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 ml-2">
-            <Text className="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider mb-1">Pending</Text>
-            <Text className="text-2xl font-bold text-amber-500">12</Text>
+            <Text className="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider mb-1">Pending Week</Text>
+            <Text className="text-2xl font-bold text-amber-500">{dashboardData.stats.pendingAthletes}</Text>
           </View>
         </View>
 
         {/* Quick Actions */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-6 h-12">
           <View className="flex-row gap-3">
-            <TouchableOpacity className="flex-row items-center gap-2 px-4 py-2 bg-primary rounded-lg">
+            <TouchableOpacity
+              onPress={() => navigation.navigate('AssignAthletes')}
+              className="flex-row items-center gap-2 px-4 py-2 bg-primary rounded-lg"
+            >
               <MaterialIcons name="add-circle" size={20} color="white" />
               <Text className="text-white font-semibold text-sm">New Athlete</Text>
             </TouchableOpacity>
@@ -129,16 +208,23 @@ export default function CoachDashboard() {
           </View>
 
           <View className="space-y-3">
-            {athletes.map((athlete) => (
-              <View key={athlete.id} className="flex-row items-center gap-4 bg-slate-100 dark:bg-slate-800/40 p-4 rounded-xl border border-slate-200 dark:border-slate-800/60 mb-3">
+            {dashboardData.athletes.map((athlete) => {
+              const badge = getBadgeClasses(athlete.complianceStatus);
+
+              return (
+              <TouchableOpacity
+                key={athlete.id}
+                onPress={() => navigation.navigate('AthleteDetail', { athleteId: athlete.id })}
+                className="flex-row items-center gap-4 bg-slate-100 dark:bg-slate-800/40 p-4 rounded-xl border border-slate-200 dark:border-slate-800/60 mb-3"
+              >
                 <View className="w-14 h-14 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
-                  <Image source={{ uri: athlete.image }} className="w-full h-full" />
+                  {renderAvatar(athlete)}
                 </View>
                 <View className="flex-1">
                   <View className="flex-row justify-between items-start">
                     <Text className="font-bold text-slate-900 dark:text-slate-100" numberOfLines={1}>{athlete.name}</Text>
-                    <View className={`px-2 py-0.5 rounded-full ${athlete.complianceStatus === 'emerald' ? 'bg-emerald-500/10' : 'bg-amber-500/10'}`}>
-                      <Text className={`text-xs font-bold ${athlete.complianceStatus === 'emerald' ? 'text-emerald-500' : 'text-amber-500'}`}>
+                    <View className={`px-2 py-0.5 rounded-full ${badge.container}`}>
+                      <Text className={`text-xs font-bold ${badge.text}`}>
                         {athlete.compliance} Compliance
                       </Text>
                     </View>
@@ -150,7 +236,6 @@ export default function CoachDashboard() {
                     {athlete.progress.map((p, i) => {
                       let bgClass = "bg-slate-300 dark:bg-slate-700";
                       if (p === 'emerald') bgClass = "bg-emerald-500";
-                      else if (p === 'emerald-light') bgClass = "bg-emerald-500/30";
                       else if (p === 'amber') bgClass = "bg-amber-500";
                       else if (p === 'rose') bgClass = "bg-rose-500";
                       
@@ -158,11 +243,32 @@ export default function CoachDashboard() {
                     })}
                   </View>
                 </View>
-                <TouchableOpacity className="p-2">
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('AthleteDetail', { athleteId: athlete.id })}
+                  className="p-2"
+                >
                   <MaterialIcons name="edit" size={24} color="#94a3b8" />
                 </TouchableOpacity>
-              </View>
-            ))}
+              </TouchableOpacity>
+            )})}
+
+            {dashboardData.athletes.length === 0 && (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('AssignAthletes')}
+                className="bg-slate-50 dark:bg-slate-800/40 p-6 rounded-xl border border-dashed border-slate-300 dark:border-slate-700 items-center gap-3"
+              >
+                <MaterialIcons name="person-add" size={36} color="#007fff" />
+                <Text className="text-slate-700 dark:text-slate-200 font-bold text-center text-base">
+                  Sin atletas asignados
+                </Text>
+                <Text className="text-slate-500 dark:text-slate-400 text-sm text-center">
+                  Toca aquí para asignar atletas a tu cuenta y ver su compliance semanal.
+                </Text>
+                <View className="bg-primary px-4 py-2 rounded-lg mt-1">
+                  <Text className="text-white font-bold text-sm">Asignar atletas</Text>
+                </View>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
 

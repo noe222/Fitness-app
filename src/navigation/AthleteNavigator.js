@@ -48,6 +48,7 @@ function AthleteTabs() {
         name="Tracking" 
         component={DailyTracking} 
         options={{
+          tabBarLabel: 'Compliance',
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="insert-chart" size={size} color={color} />
           )

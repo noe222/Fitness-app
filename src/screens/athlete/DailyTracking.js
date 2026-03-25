@@ -1,191 +1,227 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, TextInput, SafeAreaView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, SafeAreaView, ActivityIndicator, Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useAuthStore } from '../../store/useAuthStore';
+import { useWeeklyForms, weeklyComplianceOptions } from '../../hooks/useWeeklyForms';
 
 export default function DailyTracking() {
-  const [sleep, setSleep] = useState(8);
-  const [stress, setStress] = useState(3);
-  const [energy, setEnergy] = useState(9);
-  
-  const [training, setTraining] = useState('yes'); // 'yes' | 'rest' | null
-  const [diet, setDiet] = useState('100'); // '100' | '90' | '80' | '<80' | null
+  const { session } = useAuthStore();
+  const { getCurrentWeekMetadata, fetchActiveDiet, fetchCurrentWeekForm, saveWeeklyForm } = useWeeklyForms();
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [activeDiet, setActiveDiet] = useState(null);
+  const [currentForm, setCurrentForm] = useState(null);
+  const [weekData, setWeekData] = useState(() => getCurrentWeekMetadata());
+  const [selectedCompliance, setSelectedCompliance] = useState(100);
+  const [hungerScore, setHungerScore] = useState(3);
+  const [energyScore, setEnergyScore] = useState(3);
+  const [digestionScore, setDigestionScore] = useState(3);
+  const [notes, setNotes] = useState('');
 
-  const days = [
-    { day: 'Mon', date: '12', state: 'past' },
-    { day: 'Tue', date: '13', state: 'past' },
-    { day: 'Wed', date: '14', state: 'past' },
-    { day: 'Today', date: '15', state: 'today' },
-    { day: 'Fri', date: '16', state: 'future' },
-    { day: 'Sat', date: '17', state: 'future' },
-    { day: 'Sun', date: '18', state: 'future' },
-  ];
+  useEffect(() => {
+    loadWeeklyTracking();
+  }, [session?.user?.id]);
+
+  const loadWeeklyTracking = async () => {
+    if (!session?.user?.id) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const currentWeek = getCurrentWeekMetadata();
+      setWeekData(currentWeek);
+
+      const [dietData, formData] = await Promise.all([
+        fetchActiveDiet(session.user.id),
+        fetchCurrentWeekForm(session.user.id, currentWeek.isoYear, currentWeek.isoWeek),
+      ]);
+
+      setActiveDiet(dietData);
+      setCurrentForm(formData);
+
+      if (formData) {
+        setSelectedCompliance(formData.diet_compliance_score || 100);
+        setHungerScore(formData.hunger_score || 3);
+        setEnergyScore(formData.energy_score || 3);
+        setDigestionScore(formData.digestion_score || 3);
+        setNotes(formData.notes || '');
+      }
+    } catch (error) {
+      console.error('Error al cargar el check-in semanal:', error.message);
+      Alert.alert('Error', error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSaveWeeklyForm = async () => {
+    if (!session?.user?.id) {
+      Alert.alert('Sesion no valida', 'No hemos podido identificar al atleta.');
+      return;
+    }
+
+    if (!activeDiet) {
+      Alert.alert('Sin dieta activa', 'Necesitas una dieta asignada para enviar el cumplimiento semanal.');
+      return;
+    }
+
+    try {
+      setSaving(true);
+
+      const savedForm = await saveWeeklyForm({
+        athleteId: session.user.id,
+        dietId: activeDiet.id,
+        isoYear: weekData.isoYear,
+        isoWeek: weekData.isoWeek,
+        weekStartDate: weekData.weekStartDateString,
+        dietComplianceScore: selectedCompliance,
+        hungerScore,
+        energyScore,
+        digestionScore,
+        notes,
+      });
+
+      setCurrentForm(savedForm);
+      Alert.alert('Check-in guardado', 'Tu cumplimiento semanal se ha registrado correctamente.');
+    } catch (error) {
+      console.error('Error al guardar el check-in semanal:', error.message);
+      Alert.alert('Error en Supabase', error.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const renderScoreSelector = (label, value, onChange, iconName) => (
+    <View className="mb-6">
+      <View className="flex-row items-center justify-between mb-3">
+        <View className="flex-row items-center">
+          <MaterialIcons name={iconName} size={18} color="#007fff" />
+          <Text className="ml-2 text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">{label}</Text>
+        </View>
+        <Text className="text-primary font-bold text-lg">{value}/5</Text>
+      </View>
+
+      <View className="flex-row justify-between gap-2">
+        {[1, 2, 3, 4, 5].map((score) => (
+          <TouchableOpacity
+            key={score}
+            onPress={() => onChange(score)}
+            className={`flex-1 py-3 rounded-xl border items-center ${value === score ? 'bg-primary border-primary' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700'}`}
+          >
+            <Text className={`font-bold ${value === score ? 'text-white' : 'text-slate-700 dark:text-slate-200'}`}>{score}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+    </View>
+  );
+
+  if (loading) {
+    return (
+      <SafeAreaView className="flex-1 justify-center items-center bg-background-light dark:bg-background-dark">
+        <ActivityIndicator size="large" color="#007fff" />
+        <Text className="mt-4 text-slate-500 font-semibold">Cargando tu check-in semanal...</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-background-light dark:bg-background-dark">
-      {/* Header & Date Picker */}
-      <View className="bg-background-light/80 dark:bg-background-dark/80 px-4 pt-4 pb-2 border-b border-slate-200 dark:border-slate-800 z-10 w-full">
-        <View className="flex-row items-center justify-between mb-4">
-          <Text className="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Daily Check-in</Text>
-          <View className="bg-primary/10 px-3 py-1 rounded-full">
-            <Text className="text-primary text-xs font-bold uppercase tracking-wider">Athlete Pro</Text>
+      <View className="bg-background-light/80 dark:bg-background-dark/80 px-4 pt-4 pb-4 border-b border-slate-200 dark:border-slate-800 w-full">
+        <View className="flex-row items-center justify-between mb-3">
+          <View>
+            <Text className="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Weekly Compliance</Text>
+            <Text className="text-slate-500 dark:text-slate-400 text-sm mt-1">{weekData.label}</Text>
+          </View>
+
+          <View className={`px-3 py-1 rounded-full ${currentForm ? 'bg-emerald-500/10' : 'bg-amber-500/10'}`}>
+            <Text className={`text-xs font-bold uppercase tracking-wider ${currentForm ? 'text-emerald-600' : 'text-amber-600'}`}>
+              {currentForm ? 'Enviado' : 'Pendiente'}
+            </Text>
           </View>
         </View>
 
-        {/* Horizontal Swipeable Calendar */}
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="h-20">
-          <View className="flex-row gap-3 items-center">
-            {days.map((d, index) => {
-              if (d.state === 'today') {
-                return (
-                  <View key={index} className="items-center min-w-[56px] p-3 rounded-xl bg-primary border-4 border-primary/20">
-                    <Text className="text-[10px] font-bold uppercase text-white">{d.day}</Text>
-                    <Text className="text-lg font-bold text-white">{d.date}</Text>
-                  </View>
-                );
-              } else if (d.state === 'past') {
-                return (
-                  <View key={index} className="items-center min-w-[56px] p-2 rounded-xl border border-slate-200 dark:border-slate-800 opacity-50">
-                    <Text className="text-[10px] font-bold uppercase text-slate-900 dark:text-slate-100">{d.day}</Text>
-                    <Text className="text-lg font-bold text-slate-900 dark:text-slate-100">{d.date}</Text>
-                  </View>
-                );
-              } else {
-                return (
-                  <View key={index} className="items-center min-w-[56px] p-2 rounded-xl border border-slate-200 dark:border-slate-800">
-                    <Text className="text-[10px] font-bold uppercase text-slate-900 dark:text-slate-100">{d.day}</Text>
-                    <Text className="text-lg font-bold text-slate-900 dark:text-slate-100">{d.date}</Text>
-                  </View>
-                );
-              }
-            })}
-          </View>
-        </ScrollView>
+        <Text className="text-xs text-slate-500 dark:text-slate-400">
+          {activeDiet ? `Plan activo: ${activeDiet.phase}` : 'Todavia no tienes una dieta activa asignada.'}
+        </Text>
       </View>
 
-      {/* Main Content */}
       <ScrollView className="flex-1 p-4 w-full" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>
-        
-        {/* Sleep Quality Slider */}
-        <View className="mb-8">
+        <View className="bg-white dark:bg-slate-800 p-5 rounded-3xl mb-6 border border-slate-100 dark:border-slate-700 shadow-sm">
           <View className="flex-row items-center justify-between mb-4">
-            <View className="flex-row items-center gap-2">
-              <MaterialIcons name="bedtime" size={20} color="#007fff" />
-              <Text className="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Sleep Quality</Text>
+            <View>
+              <Text className="text-xs font-bold tracking-wider text-slate-400 uppercase">Resumen semanal</Text>
+              <Text className="text-lg font-bold text-slate-900 dark:text-white mt-1">Cumplimiento de la dieta</Text>
             </View>
-            <Text className="text-primary font-bold text-lg">{sleep}/10</Text>
-          </View>
-          <View className="relative flex-col gap-4">
-            {/* Visual Bar representation of slider */}
-            <View className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg overflow-hidden flex-row">
-              <View className="h-full bg-primary" style={{ width: `${(sleep/10)*100}%` }} />
-            </View>
-            <View className="flex-row justify-between w-full px-1">
-              <Text className="text-2xl">😫</Text>
-              <Text className="text-2xl">😐</Text>
-              <Text className="text-2xl">😎</Text>
+            <View className="bg-primary/10 px-3 py-2 rounded-2xl">
+              <Text className="text-primary font-black text-lg">{selectedCompliance}%</Text>
             </View>
           </View>
-        </View>
 
-        {/* Stress Level Slider */}
-        <View className="mb-8">
-          <View className="flex-row items-center justify-between mb-4">
-            <View className="flex-row items-center gap-2">
-              <MaterialIcons name="psychology" size={20} color="#007fff" />
-              <Text className="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Stress Level</Text>
-            </View>
-            <Text className="text-primary font-bold text-lg">{stress}/10</Text>
-          </View>
-          <View className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg overflow-hidden flex-row">
-            <View className="h-full bg-primary" style={{ width: `${(stress/10)*100}%` }} />
-          </View>
-        </View>
-
-        {/* Energy Level Slider */}
-        <View className="mb-8">
-          <View className="flex-row items-center justify-between mb-4">
-            <View className="flex-row items-center gap-2">
-              <MaterialIcons name="bolt" size={20} color="#007fff" />
-              <Text className="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Energy Level</Text>
-            </View>
-            <Text className="text-primary font-bold text-lg">{energy}/10</Text>
-          </View>
-          <View className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg overflow-hidden flex-row">
-            <View className="h-full bg-primary" style={{ width: `${(energy/10)*100}%` }} />
-          </View>
-        </View>
-
-        {/* Training Adherence */}
-        <View className="mb-8">
-          <View className="flex-row items-center gap-2 mb-4">
-            <MaterialIcons name="fitness-center" size={20} color="#007fff" />
-            <Text className="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Did you train today?</Text>
-          </View>
-          <View className="flex-row gap-3">
-            <TouchableOpacity 
-              className={`flex-1 flex-row items-center justify-center gap-2 py-4 rounded-xl border-2 ${training === 'yes' ? 'border-primary bg-primary/10' : 'border-slate-200 dark:border-slate-800 bg-transparent'}`}
-              onPress={() => setTraining('yes')}
-            >
-              <MaterialIcons name="check-circle" size={20} color={training === 'yes' ? '#007fff' : '#64748b'} />
-              <Text className={`font-bold ${training === 'yes' ? 'text-primary' : 'text-slate-500 dark:text-slate-400'}`}>Yes, crushed it</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity 
-              className={`flex-1 flex-row items-center justify-center gap-2 py-4 rounded-xl border-2 ${training === 'rest' ? 'border-primary bg-primary/10' : 'border-slate-200 dark:border-slate-800 bg-transparent'}`}
-              onPress={() => setTraining('rest')}
-            >
-              <MaterialIcons name="cancel" size={20} color={training === 'rest' ? '#007fff' : '#64748b'} />
-              <Text className={`font-bold ${training === 'rest' ? 'text-primary' : 'text-slate-500 dark:text-slate-400'}`}>Rest Day</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Diet Adherence */}
-        <View className="mb-8">
-          <View className="flex-row items-center gap-2 mb-4">
-            <MaterialIcons name="restaurant-menu" size={20} color="#007fff" />
-            <Text className="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Diet Adherence</Text>
-          </View>
-          <View className="flex-row flex-wrap gap-2">
-            {[
-              { id: '100', label: '100%' },
-              { id: '90', label: '90%' },
-              { id: '80', label: '80%' },
-              { id: '<80', label: '< 80%' },
-            ].map((option) => (
-              <TouchableOpacity 
-                key={option.id}
-                onPress={() => setDiet(option.id)}
-                className={`px-5 py-2 rounded-full border ${diet === option.id ? 'border-primary bg-primary' : 'border-slate-200 dark:border-slate-800 bg-transparent'}`}
+          <View className="gap-3">
+            {weeklyComplianceOptions.map((option) => (
+              <TouchableOpacity
+                key={option.value}
+                onPress={() => setSelectedCompliance(option.value)}
+                className={`p-4 rounded-2xl border ${selectedCompliance === option.value ? 'bg-primary border-primary' : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700'}`}
               >
-                <Text className={`text-sm font-bold ${diet === option.id ? 'text-white' : 'text-slate-900 dark:text-slate-100'}`}>
-                  {option.label}
-                </Text>
+                <View className="flex-row justify-between items-center">
+                  <View className="flex-1 pr-4">
+                    <Text className={`font-black text-base ${selectedCompliance === option.value ? 'text-white' : 'text-slate-900 dark:text-white'}`}>{option.label}</Text>
+                    <Text className={`text-sm mt-1 ${selectedCompliance === option.value ? 'text-white/80' : 'text-slate-500 dark:text-slate-400'}`}>{option.description}</Text>
+                  </View>
+                  <MaterialIcons name={selectedCompliance === option.value ? 'radio-button-checked' : 'radio-button-unchecked'} size={22} color={selectedCompliance === option.value ? '#ffffff' : '#94a3b8'} />
+                </View>
               </TouchableOpacity>
             ))}
           </View>
         </View>
 
-        {/* Daily Notes */}
+        {renderScoreSelector('Hambre', hungerScore, setHungerScore, 'restaurant')}
+        {renderScoreSelector('Energia', energyScore, setEnergyScore, 'bolt')}
+        {renderScoreSelector('Digestion', digestionScore, setDigestionScore, 'favorite-border')}
+
         <View className="mb-8">
-          <View className="flex-row items-center gap-2 mb-4">
+          <View className="flex-row items-center mb-4">
             <MaterialIcons name="edit-note" size={20} color="#007fff" />
-            <Text className="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Daily Notes</Text>
+            <Text className="ml-2 text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Notas de la semana</Text>
           </View>
-          <TextInput 
-            multiline 
-            numberOfLines={4}
-            className="w-full bg-slate-100 dark:bg-slate-900 border-none rounded-xl p-4 text-slate-900 dark:text-slate-100 text-left align-top placeholder:text-slate-400" 
-            placeholder="How are you feeling today? Any aches, pains, or mental breakthroughs?" 
+          <TextInput
+            multiline
+            numberOfLines={5}
+            value={notes}
+            onChangeText={setNotes}
+            className="w-full bg-slate-100 dark:bg-slate-900 rounded-2xl p-4 text-slate-900 dark:text-slate-100 text-left align-top"
+            placeholder="Cuenta si hubo eventos sociales, hambre alta, problemas digestivos o cualquier detalle que le de contexto al coach."
+            placeholderTextColor="#94a3b8"
           />
         </View>
 
-        {/* Submit Button */}
-        <TouchableOpacity className="w-full bg-primary py-5 rounded-xl shadow-lg flex-row items-center justify-center gap-3 mb-6">
-          <Text className="text-white font-extrabold text-base">SUBMIT DAILY CHECK-IN</Text>
-          <MaterialIcons name="send" size={20} color="white" />
-        </TouchableOpacity>
+        {currentForm?.submitted_at && (
+          <View className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-4 mb-6">
+            <View className="flex-row items-center">
+              <MaterialIcons name="check-circle" size={18} color="#059669" />
+              <Text className="ml-2 text-emerald-700 font-semibold">Ya existe un check-in para esta semana.</Text>
+            </View>
+            <Text className="text-emerald-700/80 text-sm mt-2">Puedes actualizarlo tantas veces como necesites antes de cerrar la semana.</Text>
+          </View>
+        )}
 
+        <TouchableOpacity
+          disabled={saving || !activeDiet}
+          onPress={handleSaveWeeklyForm}
+          className={`w-full py-5 rounded-xl shadow-lg flex-row items-center justify-center gap-3 mb-6 ${saving || !activeDiet ? 'bg-slate-300 dark:bg-slate-700' : 'bg-primary'}`}
+        >
+          {saving ? (
+            <ActivityIndicator size="small" color="#ffffff" />
+          ) : (
+            <MaterialIcons name="task-alt" size={20} color="white" />
+          )}
+          <Text className="text-white font-extrabold text-base">
+            {saving ? 'GUARDANDO...' : currentForm ? 'ACTUALIZAR CHECK-IN SEMANAL' : 'GUARDAR CHECK-IN SEMANAL'}
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
