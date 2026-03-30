@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, SafeAreaView, Switch } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useColorScheme } from 'nativewind';
 import { useAuthStore } from '../../store/useAuthStore';
 
 export default function AthleteProfile() {
-  const [isDarkMode, setIsDarkMode] = useState(true);
-  const { logout } = useAuthStore();
+  const { logout, userProfile, session } = useAuthStore();
+  const { colorScheme, toggleColorScheme } = useColorScheme();
+  const email = session?.user?.email || '';
 
   return (
     <SafeAreaView className="flex-1 bg-background-light dark:bg-background-dark">
@@ -25,11 +27,17 @@ export default function AthleteProfile() {
         {/* Profile Section */}
         <View className="flex-col items-center p-6 gap-4">
           <View className="relative">
-            <View className="w-32 h-32 rounded-full border-4 border-primary p-1">
-              <Image 
-                source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBx-46NSazYNn0F6HXjqGF8etqEP5jfyGJL2amvHPhvIKzq08NMqp02LK9a79JOO1G4al4jECTxfgy2x0HsWpn1DxzimqSPcEzx0G6PQAoQRMnfxQ2a0AQrRRdtMlaza5MryVvcpC6pwjBlTGjUTZcXbuH4XpQhFZuhMQwphhEg9EiygnmnWUPe62ZAH1dl38MGWpMJyuAPqsVGFK-i5EwzBAZfec0-ffSkLAwFIeIpU-vsGn-K0r9-79FAt-Xpg9wMt30uRurkms4' }} 
-                className="w-full h-full rounded-full"
-              />
+            <View className="w-32 h-32 rounded-full border-4 border-primary p-1 overflow-hidden bg-primary/10 items-center justify-center">
+              {userProfile?.avatar_url ? (
+                <Image
+                  source={{ uri: userProfile.avatar_url }}
+                  className="w-full h-full rounded-full"
+                />
+              ) : (
+                <Text className="font-black text-primary text-5xl">
+                  {(userProfile?.full_name || 'A').charAt(0).toUpperCase()}
+                </Text>
+              )}
             </View>
             <View className="absolute bottom-1 right-1 bg-primary w-8 h-8 flex items-center justify-center rounded-full border-2 border-background-light dark:border-background-dark">
               <MaterialIcons name="verified" size={16} color="white" />
@@ -37,7 +45,7 @@ export default function AthleteProfile() {
           </View>
           
           <View className="items-center">
-            <Text className="text-2xl font-bold text-slate-900 dark:text-slate-100">Alex Rivera</Text>
+            <Text className="text-2xl font-bold text-slate-900 dark:text-slate-100">{userProfile?.full_name || 'Atleta'}</Text>
             <View className="mt-1 flex-row items-center gap-1 px-3 py-1 rounded-full bg-primary/10">
               <MaterialIcons name="star" size={12} color="#007fff" />
               <Text className="text-primary text-xs font-bold uppercase tracking-wider">Athlete Pro</Text>
@@ -112,9 +120,9 @@ export default function AthleteProfile() {
                 <View className="flex-1">
                   <Text className="font-medium text-slate-900 dark:text-slate-100">Dark Mode</Text>
                 </View>
-                <Switch 
-                  value={isDarkMode} 
-                  onValueChange={setIsDarkMode}
+                <Switch
+                  value={colorScheme === 'dark'}
+                  onValueChange={toggleColorScheme}
                   trackColor={{ false: "#cbd5e1", true: "#007fff" }}
                   thumbColor={"#ffffff"}
                 />

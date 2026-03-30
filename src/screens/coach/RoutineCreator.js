@@ -22,7 +22,8 @@ export default function RoutineCreator() {
       const { data, error } = await supabase
         .from('users')
         .select('id, full_name, avatar_url')
-        .eq('role', 'athlete');
+        .in('role', ['athlete', 'atleta'])
+        .order('full_name', { ascending: true });
 
       if (error) throw error;
       setAthletes(data || []);

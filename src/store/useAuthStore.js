@@ -18,7 +18,7 @@ export const useAuthStore = create((set) => ({
       .from('users')
       .select('*')
       .eq('id', session.user.id)
-      .single();
+      .maybeSingle();
 
     if (!error && data) {
       set({ session: session, userRole: data.role, userProfile: data });

@@ -110,10 +110,13 @@ export default function CoachDashboard() {
       <View className="flex-row items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800">
         <View className="flex-row items-center gap-3">
           <View className="w-10 h-10 rounded-full bg-primary/20 items-center justify-center overflow-hidden border-2 border-primary">
-            <Image 
-              source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDWpCeFZnXY8W8SjjEeR4dVD7Jaz-cbdEvd47sFlVZ7zoEWAHPoe_6FZ8Re88mbPJN-5vKRWcUvmQx5Ut9nQMHjsAppkz3pd-8t8lyoFjlO-Uq_fGdHEimgdBqJ6vYdHl0JCMcnmtH6cgllZGLajJrBBw28cLJ-2O_9dJonDs8wiJb1Hd_Bdc6y8qT1eWXWdcb1U2LceGajq2-iEIfpHoMWf7HeYrXluO_iQOAMQS3u1YmzTlz7LWJ9_r2XAiltO4RdEKIqOZGakS4' }}
-              className="w-full h-full"
-            />
+            {userProfile?.avatar_url ? (
+              <Image source={{ uri: userProfile.avatar_url }} className="w-full h-full" />
+            ) : (
+              <Text className="font-black text-primary text-base">
+                {(userProfile?.full_name || 'C').charAt(0).toUpperCase()}
+              </Text>
+            )}
           </View>
           <View>
             <Text className="text-lg font-bold leading-tight text-slate-900 dark:text-slate-100">Coach Dashboard</Text>

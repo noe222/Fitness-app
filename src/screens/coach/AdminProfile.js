@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, SafeAreaView, Switch } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useColorScheme } from 'nativewind';
 import { useAuthStore } from '../../store/useAuthStore';
 
 export default function AdminProfile() {
-  const [isDarkMode, setIsDarkMode] = useState(true);
-  const { logout } = useAuthStore();
+  const { logout, userProfile, session } = useAuthStore();
+  const { colorScheme, toggleColorScheme } = useColorScheme();
+  const email = session?.user?.email || '';
 
   return (
     <SafeAreaView className="flex-1 bg-background-light dark:bg-background-dark">
@@ -25,16 +27,22 @@ export default function AdminProfile() {
         {/* Profile Info */}
         <View className="p-6 items-center">
           <View className="flex-col items-center gap-4">
-            <View className="w-32 h-32 rounded-full border-4 border-primary/20 shadow-xl overflow-hidden mb-2">
-              <Image 
-                source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDIN0JzaSdhqaGdP3RMw6EgDrIugkLYkSSWXMIFmGmBavjkCzrfj70LU7jaYzZEGhbS24cdcLr88r_85w_SSCEzRVdBa-hTcE6H9m1waTUB-DOeHwC8ozK6lo2T5JNv-irbo--xGcqLH8-4FnWwTskJV67_pi7Vnol6OX6ZEhavzwbxKjubC5tFNVRYOIUHFUkBeO-gFYVsTb31c5yBNHX3zAoOVw_gh_2g97xc3xuU5FpbifCLDz9F9EM2K598d9lLmeYTOR_WujA' }} 
-                className="w-full h-full"
-              />
+            <View className="w-32 h-32 rounded-full border-4 border-primary/20 shadow-xl overflow-hidden bg-primary/10 items-center justify-center mb-2">
+              {userProfile?.avatar_url ? (
+                <Image
+                  source={{ uri: userProfile.avatar_url }}
+                  className="w-full h-full"
+                />
+              ) : (
+                <Text className="font-black text-primary text-5xl">
+                  {(userProfile?.full_name || 'C').charAt(0).toUpperCase()}
+                </Text>
+              )}
             </View>
             <View className="items-center justify-center">
-              <Text className="text-[24px] font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 text-center">Marcus Sterling</Text>
-              <Text className="text-primary text-base font-semibold leading-normal text-center mt-1">Senior Head Coach</Text>
-              <Text className="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal text-center mt-1">marcus.sterling@fitness.pro</Text>
+              <Text className="text-[24px] font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 text-center">{userProfile?.full_name || 'Coach'}</Text>
+              <Text className="text-primary text-base font-semibold leading-normal text-center mt-1">Head Coach</Text>
+              <Text className="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal text-center mt-1">{email}</Text>
             </View>
           </View>
         </View>
@@ -91,9 +99,9 @@ export default function AdminProfile() {
             <View className="flex-1 justify-center">
               <Text className="text-slate-900 dark:text-slate-100 text-base font-medium leading-normal">Dark Theme</Text>
             </View>
-            <Switch 
-              value={isDarkMode} 
-              onValueChange={setIsDarkMode}
+            <Switch
+              value={colorScheme === 'dark'}
+              onValueChange={toggleColorScheme}
               trackColor={{ false: "#cbd5e1", true: "#007fff" }}
               thumbColor={"#ffffff"}
             />

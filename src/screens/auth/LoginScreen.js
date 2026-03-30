@@ -38,7 +38,7 @@ export default function LoginScreen() {
       .from('users') // Busca en tu tabla creada
       .select('role') // Queremos saber su rol
       .eq('id', userId) // Donde el ID coincida con el UUID del portero
-      .single(); // Solo esperamos un resultado
+      .maybeSingle(); // 0 o 1 resultado sin error PGRST116
 
     setLoading(false);
 
